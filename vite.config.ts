@@ -13,6 +13,10 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+        'react-native': path.resolve(__dirname, 'src/utils/react-native-mock.tsx'),
+        'lucide-react-native': 'lucide-react',
+        'expo-router': path.resolve(__dirname, 'src/utils/expo-router-mock.tsx'),
+        'react-native-svg': path.resolve(__dirname, 'src/utils/react-native-svg-mock.tsx'),
       },
     },
     server: {

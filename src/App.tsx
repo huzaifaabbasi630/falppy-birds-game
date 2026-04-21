@@ -3,45 +3,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
-import { useGameStore } from './store/gameStore';
-import GameCanvas from './components/GameCanvas';
-import { HomeScreen, LevelSelectOverlay, GameOverScreen, LevelUpScreen } from './components/UIComponents';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import HomeScreen from '../app/index';
+import GameScreen from '../app/game';
+import { useGameStore } from './store/useStore';
 
+// In the browser preview, we'll use local state routing
 export default function App() {
-  const { gameState, language } = useGameStore();
-  const [isLevelSelectOpen, setIsLevelSelectOpen] = useState(false);
-
-  // Expose level select to window for the HomeScreen button
+  const [currentPath, setCurrentPath] = useState('/');
+  
   useEffect(() => {
-    (window as any).showLevelSelect = () => setIsLevelSelectOpen(true);
+    (window as any).onNavigate = (path: string) => setCurrentPath(path);
   }, []);
+  
+  const renderScreen = () => {
+    switch (currentPath) {
+      case '/':
+        return <HomeScreen />;
+      case '/game':
+        return <GameScreen />;
+      default:
+        return <HomeScreen />;
+    }
+  };
 
   return (
-    <div 
-      className={`relative w-full h-screen overflow-hidden font-sans ${language === 'ur' ? 'rtl' : 'ltr'}`}
-      dir={language === 'ur' ? 'rtl' : 'ltr'}
-    >
-      {/* Game Layer */}
-      {(gameState === 'playing' || gameState === 'gameover' || gameState === 'level-up') && (
-        <GameCanvas />
-      )}
-
-      {/* UI Overlay Layer */}
-      {gameState === 'home' && <HomeScreen />}
-      {gameState === 'gameover' && <GameOverScreen />}
-      {gameState === 'level-up' && <LevelUpScreen />}
-
-      {/* Global Modals */}
-      <LevelSelectOverlay 
-        isOpen={isLevelSelectOpen} 
-        onClose={() => setIsLevelSelectOpen(false)} 
-      />
-
-      {/* Mobile restriction notice - subtle */}
-      <div className="fixed bottom-2 left-0 right-0 text-center pointer-events-none opacity-30 text-[10px] text-gray-400">
-        Optimized for mobile view. Press Space or Tap to jump.
-      </div>
-    </div>
+    <View style={styles.container}>
+      {renderScreen()}
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+});
