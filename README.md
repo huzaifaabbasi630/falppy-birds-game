@@ -1,20 +1,49 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Flappy Bird: Level Up Edition
 
-# Run and deploy your AI Studio app
+Complete Flappy Bird clone with 50 levels of increasing difficulty, built with React Native (Expo), Expo Router, and Reanimated.
 
-This contains everything you need to run your app locally.
+## Features
+- **50 Levels**: Difficulty increases every level (higher pipe speed, smaller gaps).
+- **Localization**: Full support for English and Urdu.
+- **State Management**: Persistent high score, unlocked levels, and achievements using Zustand and AsyncStorage.
+- **Physics Engine**: Custom 60 FPS game loop using `requestAnimationFrame`.
+- **Responsive UI**: Works on all screen sizes.
+- **Animations**: Smooth bird rotation and pipe movement using Reanimated 4.
 
-View your app in AI Studio: https://ai.studio/apps/257f0635-f5c3-405a-b18b-82c6a6d9a912
+## Tech Stack
+- **Framework**: Expo (SDK 54)
+- **Routing**: Expo Router
+- **Animations**: React Native Reanimated
+- **State**: Zustand
+- **Persistence**: AsyncStorage
+- **Sound**: Expo AV
 
-## Run Locally
+## Getting Started
 
-**Prerequisites:**  Node.js
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
+2. **Add Sounds (Optional)**:
+   Place your sound files in `assets/sounds/`:
+   - `jump.mp3`
+   - `hit.mp3`
+   - `score.mp3`
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+3. **Start the project**:
+   ```bash
+   npx expo start
+   ```
+
+## Folder Structure
+- `/app`: Expo Router screens (Home, Game, Game Over)
+- `/components`: Game components (Bird, Pipe, GameEngine)
+- `/store`: Zustand state management
+- `/utils`: Physics logic, constants, and translations
+- `/assets`: Images and sounds
+
+## Level Difficulty Formula
+- **Pipe Speed**: Starts at 3.5 and increases by 0.08 per level.
+- **Pipe Gap**: Starts at 200 and decreases by 1.5 per level (minimum 130).
+- **Target Score**: Each level has a target score to unlock the next level.
